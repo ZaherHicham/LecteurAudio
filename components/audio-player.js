@@ -54,16 +54,21 @@ class AudioPlayer extends HTMLElement {
     this.shadowRoot.innerHTML = `
             <style>
                 /* Ajoute ici tes styles si nécessaire */
-                :host {
-                    display: block;
-                    max-width: 600px;
-                    margin: auto;
+
+                .main-container {
+                  display: flex;
+                  align-items: flex-start; /* Aligne les deux éléments en haut */
+                  max-width: 100%;
+                  overflow-x: auto; /* Ajoute une barre de défilement horizontale si nécessaire */
+                  
                 }
             </style>
-            <controls-bar></controls-bar>
-            <playlist-bar></playlist-bar>
-            <progress-bar></progress-bar>
-            <audio-visualizer></audio-visualizer>
+            <div class="main-container">
+              <controls-bar></controls-bar>
+              <playlist-bar></playlist-bar>
+              <progress-bar></progress-bar>
+              <audio-visualizer></audio-visualizer>
+            </div>
         `;
   }
 }

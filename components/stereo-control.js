@@ -10,7 +10,7 @@ class StereoControl extends HTMLElement {
     }
 
     setupEventListeners() {
-        const panSlider = this.shadowRoot.querySelector("#stereo");
+        const panSlider = this.shadowRoot.querySelector("#stereo-slider");
 
         panSlider.addEventListener("input", (event) => {
             const panValue = parseFloat(event.target.value); // Assurez-vous que la valeur est un nombre
@@ -28,7 +28,14 @@ class StereoControl extends HTMLElement {
                 /* Styles for the stereo controls */
             </style>
             <label>Stéréo:</label>
-            <input type="range" id="stereo" min="-1" max="1" step="0.01" value="0">
+            <webaudio-slider id="stereo-slider"
+                         src="/assets/images/Yal-SliderV.png"  
+                         min="-1" max="1" value="0"           
+                         step="0.01"                          
+                         sprites="30"                        
+                         width="32" height="128"             
+                         tooltip="Stéréo: %d">
+        </webaudio-slider>
         `;
     }
 }
