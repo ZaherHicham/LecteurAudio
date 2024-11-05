@@ -12,32 +12,14 @@ class StereoControl extends HTMLElement {
     setupEventListeners() {
         const panSlider = this.shadowRoot.querySelector("#stereo");
 
-        // Demander le contexte audio et le panNode au composant parent
-        const event = new CustomEvent("setAudioContext", {
-        detail: { context: null, panNode: null },
-        bubbles: true,
-        composed: true,
-      });
-      this.dispatchEvent(event);
-
-      const panNode = event.detail.panNode;
-
-      if (panNode) {
-        // Mettre à jour la valeur de pan en fonction du slider
-        panSlider.addEventListener("input", () => {
-          panNode.pan.value = panSlider.value;
+        panSlider.addEventListener("input", (event) => {
+            const panValue = parseFloat(event.target.value); // Assurez-vous que la valeur est un nombre
+            this.dispatchEvent(new CustomEvent("pan-change", {
+                detail: { value: panValue },
+                bubbles: true,
+                composed: true
+            }));
         });
-      }
-
-        // this.stereoInput = this.shadowRoot.getElementById("stereo");
-        // this.stereoInput.addEventListener("input", (event) => {
-        //     // Émet un événement pour informer ControlsBar de la nouvelle valeur
-        //     this.dispatchEvent(new CustomEvent('stereo-changed', {
-        //         detail: { value: event.target.value },
-        //         bubbles: true,
-        //         composed: true
-        //     }));
-        // });
     }
 
     render() {
@@ -46,8 +28,7 @@ class StereoControl extends HTMLElement {
                 /* Styles for the stereo controls */
             </style>
             <label>Stéréo:</label>
-            <input type="range" id="stereo" min="-1" max="1" step="0.01" value="0"> <!-- Contrôle stéréo -->
-
+            <input type="range" id="stereo" min="-1" max="1" step="0.01" value="0">
         `;
     }
 }

@@ -2,60 +2,83 @@ class AudioVisualizer extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.audioContext = new AudioContext();
-        this.analyser = this.audioContext.createAnalyser();
+        this.analyser = null;
+        this.dataArray = null;
+        this.bufferLength = null;
     }
 
     connectedCallback() {
         this.render();
-        // this.setupEventListeners();
-        // this.setupVisualizer();
     }
 
-    setupEventListeners(audioElement) {
-        // this.audioElement = audioElement;
-        // this.audioElement.addEventListener('play', () => this.startVisualizer());
-        // this.audioElement.addEventListener('pause', () => this.stopVisualizer());
+    // Configure le visualiseur avec l'AnalyserNode
+    setupVisualizer(analyser) {
+        this.analyser = analyser;
+        this.analyser.fftSize = 256; // Taille du FFT pour la précision de visualisation
+
+        console.log("AnalyserNode configuré:", this.analyser);
+
+        // Initialisation des données de fréquence
+        this.bufferLength = this.analyser.frequencyBinCount;
+        this.dataArray = new Uint8Array(this.bufferLength);
+
+        this.startVisualizer();
     }
 
-    // setupVisualizer() {
-    //     this.canvas = this.shadowRoot.getElementById('visualizer');
-    //     this.canvasContext = this.canvas.getContext('2d');
+    startVisualizer() {
+        this.canvas = this.shadowRoot.getElementById('visualizer');
+        this.canvasContext = this.canvas.getContext('2d');
 
-    //     this.audioSource = this.audioContext.createMediaElementSource(this.audioElement);
-    //     this.audioSource.connect(this.analyser);
-    //     this.analyser.connect(this.audioContext.destination);
+        if (!this.canvasContext) {
+            console.error("Contexte du canvas non initialisé");
+            return;
+        }
 
-    //     this.rafId = null;
-    //     this.renderVisualizer();
-    // }
+        console.log("Démarrage du visualiseur avec le canvas:", this.canvas);
 
-    // startVisualizer() {
-    //     this.rafId = requestAnimationFrame(this.renderVisualizer.bind(this));
-    // }
 
-    // stopVisualizer() {
-    //     cancelAnimationFrame(this.rafId);
-    // }
+        // Lancer la boucle de dessin
+        this.draw();
+    }
 
-    // renderVisualizer = () => {
-    //     const frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
-    //     this.analyser.getByteFrequencyData(frequencyData);
+    draw() {
+        requestAnimationFrame(() => this.draw());
 
-    //     this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // Récupère les données de fréquence
+        this.analyser.getByteFrequencyData(this.dataArray);
 
-    //     // Render the visualizer based on the frequency data
-    //     // ...
+        console.log("Valeurs de fréquence actuelles:", this.dataArray);
 
-    //     this.rafId = requestAnimationFrame(this.renderVisualizer);
-    // };
+        // Efface le canevas
+        this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Dessine les barres du visualiseur
+        const barWidth = (this.canvas.width / this.bufferLength) * 2.5;
+        let barHeight;
+        let x = 0;
+
+        for (let i = 0; i < this.bufferLength; i++) {
+            barHeight = this.dataArray[i];
+
+            if (barHeight > 0) {
+                console.log("Dessine une barre avec hauteur:", barHeight);
+            }
+            this.canvasContext.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
+            this.canvasContext.fillRect(x, this.canvas.height - barHeight / 2, barWidth, barHeight / 2);
+            x += barWidth + 1;
+        }
+    }
 
     render() {
         this.shadowRoot.innerHTML = `
             <style>
-                /* Styles for the audio visualizer */
+                canvas {
+                    width: 100%;
+                    height: 300px;
+                    background-color: black;
+                }
             </style>
-            <canvas id="visualizer"></canvas>
+            <canvas id="visualizer" width="600" height="300"></canvas>
         `;
     }
 }

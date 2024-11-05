@@ -19,6 +19,14 @@ class AudioPlayer extends HTMLElement {
     this.progressBar = this.shadowRoot.querySelector("progress-bar");
     this.stereoControl = this.shadowRoot.querySelector("stereo-control");
     this.visualizer = this.shadowRoot.querySelector("audio-visualizer");
+    
+    
+
+    // Configurez le visualiseur avec le contexte et l'élément audio
+    this.controls.addEventListener("audio-element-ready", (event) => {
+      this.visualizer.setupVisualizer(event.detail.analyser);
+        
+    });
 
 
     // // Écouteur pour récupérer l'élément audio
