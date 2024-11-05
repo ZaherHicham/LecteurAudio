@@ -37,3 +37,4 @@ Ce projet consiste à développer un lecteur audio complet en utilisant les **We
 [x] Le projet est structuré en plusieurs Web Components pour améliorer la modularité et la maintenabilité du code.
 
 
+[x] : veut dire que ça a été fait
