@@ -47,8 +47,6 @@ class AudioVisualizer extends HTMLElement {
         // Récupère les données de fréquence
         this.analyser.getByteFrequencyData(this.dataArray);
 
-        console.log("Valeurs de fréquence actuelles:", this.dataArray);
-
         // Efface le canevas
         this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
