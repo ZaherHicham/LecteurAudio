@@ -1,5 +1,7 @@
 # Projet : Lecteur Audio avec Web Components
 
+## Ouvrir sur google chrome
+
 ## Description
 
 Ce projet consiste à développer un lecteur audio complet en utilisant les **Web Components** et l'API **HTML5 audio**. L'objectif est de créer un lecteur audio personnalisé avec des fonctionnalités avancées, notamment le réglage de la stéréo, la visualisation des fréquences, et l'utilisation de **WebAudio Controls** pour améliorer l'expérience utilisateur.
@@ -7,7 +9,7 @@ Ce projet consiste à développer un lecteur audio complet en utilisant les **We
 ## Fonctionnalités Réalisées
 
 ### ✅ 1. Faire votre propre lecteur audio avec Web Components
- [x] Création d'un lecteur audio personnalisé en utilisant des Web Components.
+ [x] Création d'un lecteur audio personnalisé en uhttp://127.0.0.1:5500/index.htmltilisant des Web Components.
 
 ### ✅ 2. Utilisation de l’API du W3C de l’élément `<audio>` de HTML5
 [x] Intégration de l'API HTML5 `<audio>` pour les fonctionnalités essentielles :
